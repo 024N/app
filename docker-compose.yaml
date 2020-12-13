@@ -1,0 +1,29 @@
+version: '3.6'
+services: 
+  user:
+    build:
+      context: ./user
+    ports:
+      - "8000:4000"
+    # links:
+    #   - "db:pgsql-server"
+    # networks: 
+    #   - microservices
+
+  db:
+    image: postgres:latest
+    container_name: postgre-user
+    ports:
+      - "5432:5432"
+    environment:
+      POSTGRES_HOST: 127.0.0.1
+      POSTGRES_DB: startup
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: deb.deb
+      POSTGRES_DATABASE: startup
+    # networks: 
+    #   - microservices
+
+# networks: 
+#   microservices:
+#     driver: bridge
