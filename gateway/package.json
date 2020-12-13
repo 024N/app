@@ -1,0 +1,23 @@
+{
+  "name": "gateway",
+  "version": "1.0.0",
+  "description": "",
+  "scripts": {
+    "dev": "ts-node src/index.ts",
+    "start": "nodemon -r ./src/index.ts",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "@apollo/gateway": "^0.21.4",
+    "apollo-server": "^2.19.0",
+    "dotenv": "^8.2.0",
+    "ts-node": "^9.1.1"
+  },
+  "devDependencies": {
+    "@types/node": "^14.14.12",
+    "nodemon": "^2.0.6",
+    "typescript": "^4.1.2"
+  }
+}

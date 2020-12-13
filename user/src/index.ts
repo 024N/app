@@ -4,7 +4,7 @@ import { createUser, getAllUsers, getUserRewards } from "./service/UserService";
 
 const port = process.env.PORT;
 const typeDefs = gql`
-  type User @key(fields: "id") {
+  type User @key(fields: "uid") {
     uid: ID!
     name: String
     email: String

@@ -4,7 +4,7 @@ import { createReward, getRewardedUsers, getAllRewards, assignReward } from "./s
 
 const port = process.env.PORT;
 const typeDefs = gql`
-  type Reward @key(fields: "id") {
+  type Reward @key(fields: "rid") {
     rid: ID!
     name: String
     amount: String
