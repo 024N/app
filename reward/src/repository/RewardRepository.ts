@@ -61,6 +61,8 @@ export async function getAllRewardsQuery(){
 }
 
 export async function createRewardQuery(reward: RewardEntity): Promise<boolean> {
+    console.log("opt ->>>>>>>>>>>>>>")
+    console.log(POSTGRES_REWARD_OPTIONS)
     const connection = await createConnection(POSTGRES_REWARD_OPTIONS);
     await connection.manager.save(reward).catch(error => {
         console.log(error);
@@ -72,6 +74,8 @@ export async function createRewardQuery(reward: RewardEntity): Promise<boolean> 
 }
 
 export async function assignRewardQuery(reward: RewardedUserEntity): Promise<boolean> {
+    console.log("opt ->>>>>>>>>>>>>>")
+    console.log(POSTGRES_REWARDED_USER_OPTIONS)
     const connection = await createConnection(POSTGRES_REWARDED_USER_OPTIONS);
     await connection.manager.save(reward).catch(error => {
         console.log(error);

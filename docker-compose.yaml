@@ -1,7 +1,7 @@
 version: '3.6'
 services: 
 
-  db:
+  db-user:
     image: postgres:latest
     container_name: postgre-user
     ports:
@@ -13,7 +13,21 @@ services:
       POSTGRES_PASSWORD: deb.deb
       POSTGRES_DATABASE: startup
     networks: 
-      - server-side
+      - db-user-side
+
+  db-reward:
+    image: postgres:latest
+    container_name: postgre-reward
+    ports:
+      - "5433:5432"
+    environment:
+      POSTGRES_HOST: db
+      POSTGRES_DB: startup
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: deb.deb
+      POSTGRES_DATABASE: startup
+    networks: 
+      - db-reward-side
 
   user:
     build:
@@ -23,8 +37,9 @@ services:
     networks: 
       - server-side
       - gateway-side
+      - db-user-side
     depends_on:
-      - db
+      - db-user
 
   reward:
     build:
@@ -34,8 +49,9 @@ services:
     networks: 
       - server-side
       - gateway-side
+      - db-reward-side
     depends_on:
-      - db
+      - db-reward
 
   gateway:
     build:
@@ -51,3 +67,5 @@ services:
 networks: 
   server-side:
   gateway-side:
+  db-user-side:
+  db-reward-side:

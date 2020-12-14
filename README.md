@@ -16,3 +16,22 @@
 
 # Configration for local
 - .env.local (in reward and user and gateway)
+
+# Install Docker Compose
+- in \app folder
+- run "docker-compose up -d"
+- Gateway should be run after other 2 services so;
+- docker restart app_gateway_1
+
+
+# Other commands 
+- To build a project
+- docker-compose build gateway
+- To see containers
+- docker container ls
+- To see logs 
+- docker logs --details app_user_1
+
+- To terminate port
+- netstat -ano | findstr :4001 (4001 is port name)
+- taskkill /PID 1524 /F (1524 is 4001's PID)
