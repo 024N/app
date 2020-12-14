@@ -1,6 +1,6 @@
 FROM node:latest
 WORKDIR /src
-ENV PORT=4001
+ENV PORT=4000
 COPY . .
 RUN npm install
 EXPOSE $PORT

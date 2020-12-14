@@ -1,26 +1,17 @@
-query{
-  getAllUsers{
-    uid
-    name
-    email
-    phone
-    country
-    }
-}
+# postgreDB used
 
+# To install
+- npm install
 
-query{
-  getUser(id: 1){
-    name
-    }
-}
+# To run test
+- npm t
 
-query{
-  createUser(name: "asd", email: "em", phone: "phone", country: "coun"){
-    name
-    }
-}
+# To run in local
+- npm run local
 
-mutation {
-   createUser(name:"col-2",email:"Tim",phone:"George",country:"George")
-}
+# Configration for docker
+- .env.cloud 
+- Dockerfile
+
+# Configration for local
+- .env.local 

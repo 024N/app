@@ -1,10 +1,17 @@
 import { ApolloServer, gql } from "apollo-server";
 import { buildFederatedSchema } from "@apollo/federation";
-import { createReward, getRewardedUsers, getAllRewards, assignReward } from "./service/RewardService";
+import { createReward, getRewardedUsers, getAllRewards, assignReward, getRewardsByUserId } from "./service/RewardService";
+import * as dotenv from 'dotenv';
+
+if (String(process.env.ENV) === 'local') {
+  dotenv.config({ path: '.env.local' });
+}else {
+  dotenv.config({ path: '.env.cloud' });
+}
 
 const port = process.env.PORT;
 const typeDefs = gql`
-  type Reward @key(fields: "id") {
+  type Reward {
     rid: ID!
     name: String
     amount: String
@@ -17,9 +24,18 @@ const typeDefs = gql`
     rid: String
   }
 
+  type User {
+    uid: ID!
+    name: String
+    email: String
+    phone: String
+    country: String
+  }
+
   extend type Query {
-    getRewardedUsers(id: ID!): [RewardedUsers]
+    getRewardedUsers(id: ID!): [User]
     getAllRewards: [Reward]
+    getRewardsByUserId(id: ID!): [RewardedUsers]
   }
 
   type Mutation {
@@ -29,18 +45,15 @@ const typeDefs = gql`
 `;
 
 const resolvers = {
-//   User: {
-//     __resolveReference(object: any) {
-//       return userdb.find((user: any) => user.uid === object.id);
-//     },
-//   },
- 
   Query: {
     getRewardedUsers: async (_: any, { id }: any) => {
         return await getRewardedUsers(id);
     },
     getAllRewards: async () => {
         return await getAllRewards();
+    },
+    getRewardsByUserId: async (_: any, { id }: any) => {
+      return await getRewardsByUserId(id);
     }
   },
 

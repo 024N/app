@@ -1,21 +1,37 @@
-docker-compose up -d
+# postgreDB used
 
-docker pull postgres
+# To install libs in all projects
+- npm install (in \app\gateway, in \app\user, in \app\reward)
 
-docker container ls
+# To run test in projects
+- npm t (in \app\user, in \app\reward)
 
-docker logs --details app_user_1
+# To run in local
+- npm run local (in \app\user, in \app\reward, in \app\gateway) gateway should run after other 2 services
+
+# Configration for docker
+- .env.cloud (in reward and user and gateway)
+- Dockerfile (in reward and user and gateway)
+- docker-compose.yaml
+
+# Configration for local
+- .env.local (in reward and user and gateway)
+
+# Install Docker Compose
+- in \app folder
+- run "docker-compose up -d"
+- Gateway should be run after other 2 services so;
+- docker restart app_gateway_1
 
 
-POSTGRES_HOST: 127.0.0.1
-POSTGRES_DB: startup
-POSTGRES_USER: postgres
-POSTGRES_PASSWORD: deb.deb
-POSTGRES_DATABASE: startup
-docker run --name postgrecontainer -e POSTGRES_PASSWORD=deb.deb -d postgres
-docker exec -it postgrecontainer psql -U postgres
+# Other commands 
+- To build a project
+- docker-compose build gateway
+- To see containers
+- docker container ls
+- To see logs 
+- docker logs --details app_user_1
 
-CREATE DATABASE startup
-\c startup
-CREATE TABLE demo_t(something int);
-INSERT INTO demo_t (something) VALUES (1);
+- To terminate port
+- netstat -ano | findstr :4001 (4001 is port name)
+- taskkill /PID 1524 /F (1524 is 4001's PID)

@@ -1,10 +1,17 @@
 import { ApolloServer, gql } from "apollo-server";
 import { buildFederatedSchema } from "@apollo/federation";
-import { createUser, getAllUsers, getUserRewards } from "./service/UserService";
+import { getUserConsumedRewards, getAllUsers, createUser } from "./service/UserService";
+import * as dotenv from 'dotenv';
+
+if (String(process.env.ENV) === 'local') {
+  dotenv.config({ path: '.env.local' });
+}else {
+  dotenv.config({ path: '.env.cloud' });
+}
 
 const port = process.env.PORT;
 const typeDefs = gql`
-  type User @key(fields: "id") {
+  type User {
     uid: ID!
     name: String
     email: String
@@ -12,8 +19,15 @@ const typeDefs = gql`
     country: String
   }
 
+  type Reward {
+    rid: ID!
+    name: String
+    amount: String
+    expiry_date: String
+  }
+
   extend type Query {
-    getUserRewards(id: ID!): User
+    getUserConsumedRewards(id: ID!): [Reward]
     getAllUsers: [User]
   }
 
@@ -23,15 +37,9 @@ const typeDefs = gql`
 `;
 
 const resolvers = {
-//   User: {
-//     __resolveReference(object: any) {
-//       return userdb.find((user: any) => user.uid === object.id);
-//     },
-//   },
- 
   Query: {
-    getUserRewards: async (_: any, { id }: any) => {
-        return await getUserRewards(id);
+    getUserConsumedRewards: async (_: any, { id }: any) => {
+        return await getUserConsumedRewards(id);
     },
     getAllUsers: async () => {
         return await getAllUsers();
