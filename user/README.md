@@ -1,22 +1,17 @@
-mutation {
-   createUser(name:"jhon", email:"jhon@gmail.com", phone:"057555555", country:"Turkey")
-}
+# postgreDB used
 
-query{
-  getAllUsers{
-    uid
-    name
-    email
-    phone
-    country
-    }
-}
+# To install
+- npm install
 
-query{
-  getUserConsumedRewards(id: 2){
-    rid
-    name
-    amount
-    expiry_date
-  }
-}
+# To run test
+- npm t
+
+# To run in local
+- npm run local
+
+# Configration for docker
+- .env.cloud 
+- Dockerfile
+
+# Configration for local
+- .env.local 

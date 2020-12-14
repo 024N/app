@@ -2,8 +2,9 @@ import "reflect-metadata";
 import { RewardedUserEntity } from "../db/entity/RewardedUserEntity";
 import { RewardEntity } from "../db/entity/RewardEntity";
 import { createRewardQuery, getRewardedUsersQuery, getAllRewardsQuery, assignRewardQuery, getReward, getRewardsByUserIdQuery } from "../repository/RewardRepository";
-import { request, gql } from 'graphql-request';
+import { getAllUsers } from "./RequestService";
 import * as dotenv from 'dotenv';
+
 if (String(process.env.ENV) === 'local') {
   dotenv.config({ path: '.env.local' });
 }else {
@@ -19,9 +20,8 @@ export async function getRewardedUsers(id: any){
     }).map((users:any) => users.uid);
 
     // Get all users
-    let query = await getAllUsers();
-    const allUsersInfo = await sendRequest(query);
-
+    const allUsersInfo = await getAllUsers();
+ 
     // Get Users who consumed this reward
     const rewardedUserList = await allUsersInfo.getAllUsers.filter(function(users: any) {
         return uidList.includes(users.uid);
@@ -75,25 +75,7 @@ export async function assignReward(body: RewardedUserEntity) {
     return 'Wrong parameters';
 }
 
-
-async function sendRequest(query: any){
-    const url: any = process.env.USER_SERVICE_URL;
-    return request(url, query).then((data) => data).catch(console.log)
-}
-
-async function getAllUsers(){
-  return gql`{
-    getAllUsers{
-        uid
-        name
-        email
-        phone
-        country
-    }
-  }`
-}
-
-async function checkExpiryDate(ExpiryDate: any){
+export async function checkExpiryDate(ExpiryDate: any){
     const date = new Date();
     const year = date.getFullYear();
     const month = date.getMonth() + 1;

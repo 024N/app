@@ -1,28 +1,17 @@
+# postgreDB used
 
-mutation {
-  createReward(name: "reward1", amount: "100", expiry_date: "25/12/2020")
-}
+# To install
+- npm install
 
+# To run test
+- npm t
 
-mutation {
-  assignReward(uid: "1", rid: "1")
-}
+# To run in local
+- npm run local
 
-query{
-  getAllRewards{
-    rid
-    name
-    amount
-    expiry_date
-    }
-}
+# Configration for docker
+- .env.cloud 
+- Dockerfile
 
-query{
-  getRewardedUsers(id: 2){
-    uid
-    name
-    email
-    phone
-    country
-  }
-}
+# Configration for local
+- .env.local 

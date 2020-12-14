@@ -1,7 +1,8 @@
 import { UserEntity } from "../db/entity/UserEntity";
 import { createUserQuery, getAllUsersQuery } from "../repository/UserRepository";
-import { request, gql } from 'graphql-request'
+// import { request, gql } from 'graphql-request'
 import * as dotenv from 'dotenv';
+import { getAllRewards, getRewarsId } from "./RequestService";
 if (String(process.env.ENV) === 'local') {
   dotenv.config({ path: '.env.local' });
 }else {
@@ -11,15 +12,13 @@ if (String(process.env.ENV) === 'local') {
 export async function getUserConsumedRewards(id: any){
     // Find reward id list for id
     console.log(`getUserRewards ID: ${id}`);
-    let query = await getRewarsId(id);
-    const rewardsId = await sendRequest(query);
+    const rewardsId = await getRewarsId(id);
     const ridIdList = await rewardsId.getRewardsByUserId.filter(function(users: any) {
       return users.rid;
     }).map((users:any) => users.rid);
 
     // Find Consumed Rewards List for id
-    query = await getAllRewards();
-    const allRewards = await sendRequest(query);
+    const allRewards = await getAllRewards();
     const consumedRewards = await allRewards.getAllRewards.filter(function(rewards: any) {
       return ridIdList.includes(rewards.rid);
     })
@@ -46,28 +45,30 @@ export async function createUser(body: UserEntity) {
     return 'Wrong parameters';
 }
 
-async function sendRequest(query: any){
-    const url: any = process.env.REWARD_SERVICE_URL;
-    return request(url, query).then((data) => data).catch(console.log)
-}
+// async function sendRequest(query: any){
+//     const url: any = process.env.REWARD_SERVICE_URL;
+//     return request(url, query).then((data) => data).catch(console.log)
+// }
 
-async function getRewarsId(uid: any){
-  return gql`{
-    getRewardsByUserId(id: ${uid}){
-      id
-      uid
-      rid
-    }
-  }`
-}
+// export async function getRewarsId(uid: any){
+//    const query = gql`{
+//     getRewardsByUserId(id: ${uid}){
+//       id
+//       uid
+//       rid
+//     }
+//   }`
+//   return await sendRequest(query);
+// }
 
-async function getAllRewards(){
-  return gql`{
-    getAllRewards{
-      rid
-      name
-      amount
-      expiry_date
-      }
-  }`
-} 
+// export async function getAllRewards(){
+//    const query = gql`{
+//     getAllRewards{
+//       rid
+//       name
+//       amount
+//       expiry_date
+//       }
+//   }`
+//   return await sendRequest(query);
+// } 
