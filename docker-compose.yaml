@@ -1,5 +1,20 @@
 version: '3.6'
 services: 
+
+  db:
+    image: postgres:latest
+    container_name: postgre-user
+    ports:
+      - "5432:5432"
+    environment:
+      POSTGRES_HOST: db
+      POSTGRES_DB: startup
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: deb.deb
+      POSTGRES_DATABASE: startup
+    networks: 
+      - server-side
+
   user:
     build:
       context: ./user
@@ -32,20 +47,6 @@ services:
     depends_on:
       - user
       - reward
-  
-  db:
-    image: postgres:latest
-    container_name: postgre-user
-    ports:
-      - "5432:5432"
-    environment:
-      POSTGRES_HOST: 0.0.0.0
-      POSTGRES_DB: startup
-      POSTGRES_USER: postgres
-      POSTGRES_PASSWORD: deb.deb
-      POSTGRES_DATABASE: startup
-    networks: 
-      - server-side
 
 networks: 
   server-side:

@@ -1,6 +1,12 @@
 import { UserEntity } from "../db/entity/UserEntity";
 import { createUserQuery, getAllUsersQuery } from "../repository/UserRepository";
 import { request, gql } from 'graphql-request'
+import * as dotenv from 'dotenv';
+if (String(process.env.ENV) === 'local') {
+  dotenv.config({ path: '.env.local' });
+}else {
+  dotenv.config({ path: '.env.cloud' });
+}
 
 export async function getUserConsumedRewards(id: any){
     // Find reward id list for id

@@ -3,6 +3,12 @@ import { RewardedUserEntity } from "../db/entity/RewardedUserEntity";
 import { RewardEntity } from "../db/entity/RewardEntity";
 import { createRewardQuery, getRewardedUsersQuery, getAllRewardsQuery, assignRewardQuery, getReward, getRewardsByUserIdQuery } from "../repository/RewardRepository";
 import { request, gql } from 'graphql-request';
+import * as dotenv from 'dotenv';
+if (String(process.env.ENV) === 'local') {
+  dotenv.config({ path: '.env.local' });
+}else {
+  dotenv.config({ path: '.env.cloud' });
+}
 
 export async function getRewardedUsers(id: any){
     // Find user id list for reward id

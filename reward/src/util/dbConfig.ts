@@ -1,6 +1,10 @@
 import { PostgresConnectionOptions } from "typeorm/driver/postgres/PostgresConnectionOptions";
-import { config } from 'dotenv';
-config();
+import * as dotenv from 'dotenv';
+if (String(process.env.ENV) === 'local') {
+  dotenv.config({ path: '.env.local' });
+}else {
+  dotenv.config({ path: '.env.cloud' });
+}
 
 export const POSTGRES_REWARD_OPTIONS: PostgresConnectionOptions = {
     type: 'postgres',
