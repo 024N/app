@@ -1,10 +1,24 @@
 import { UserEntity } from "../db/entity/UserEntity";
-import { createUserQuery, getAllUsersQuery, getUserRewardsQuery } from "../repository/UserRepository";
+import { createUserQuery, getAllUsersQuery } from "../repository/UserRepository";
+import { request, gql } from 'graphql-request'
 
-export async function getUserRewards(id: any){
+export async function getUserConsumedRewards(id: any){
+    // Find reward id list for id
     console.log(`getUserRewards ID: ${id}`);
-    const response = await getUserRewardsQuery(id);
-    return response;
+    let query = await getRewarsId(id);
+    const rewardsId = await sendRequest(query);
+    const ridIdList = await rewardsId.getRewardsByUserId.filter(function(users: any) {
+      return users.rid;
+    }).map((users:any) => users.rid);
+
+    // Find Consumed Rewards List for id
+    query = await getAllRewards();
+    const allRewards = await sendRequest(query);
+    const consumedRewards = await allRewards.getAllRewards.filter(function(rewards: any) {
+      return ridIdList.includes(rewards.rid);
+    })
+    console.log(`Consumed Rewards List: ${JSON.stringify(consumedRewards)}`)
+    return consumedRewards;
 }
 
 export async function getAllUsers(){
@@ -25,3 +39,29 @@ export async function createUser(body: UserEntity) {
     }
     return 'Wrong parameters';
 }
+
+async function sendRequest(query: any){
+    const url: any = process.env.REWARD_SERVICE_URL;
+    return request(url, query).then((data) => data).catch(console.log)
+}
+
+async function getRewarsId(uid: any){
+  return gql`{
+    getRewardsByUserId(id: ${uid}){
+      id
+      uid
+      rid
+    }
+  }`
+}
+
+async function getAllRewards(){
+  return gql`{
+    getAllRewards{
+      rid
+      name
+      amount
+      expiry_date
+      }
+  }`
+} 

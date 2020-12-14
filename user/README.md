@@ -1,3 +1,7 @@
+mutation {
+   createUser(name:"jhon", email:"jhon@gmail.com", phone:"057555555", country:"Turkey")
+}
+
 query{
   getAllUsers{
     uid
@@ -8,19 +12,11 @@ query{
     }
 }
 
-
 query{
-  getUser(id: 1){
+  getUserConsumedRewards(id: 2){
+    rid
     name
-    }
-}
-
-query{
-  createUser(name: "asd", email: "em", phone: "phone", country: "coun"){
-    name
-    }
-}
-
-mutation {
-   createUser(name:"col-2",email:"Tim",phone:"George",country:"George")
+    amount
+    expiry_date
+  }
 }
