@@ -1,3 +1,5 @@
+https://docs.google.com/document/d/1M7zLb0wmOy9O7MA_w5bTladBmUAjrFrVjpEo5mhM9Hs
+
 # postgreDB used
 
 # To install libs in all projects
